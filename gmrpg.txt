@@ -1,0 +1,7 @@
+"superkillers"
+{
+	"base"		"base"
+	"title"		"gmRPG"
+	"maps"		"^gmrpg_"
+	"menusystem"	"1"
+}
