@@ -3,7 +3,7 @@ AddCSLuaFile("shared.lua")
 AddCSLuaFile("client/hud.lua")
 AddCSLuaFile("client/derma.lua")
 AddCSLuaFile("client/pp.lua")
-AddCSLuaFile("client/merchant_items.lua")
+AddCSLuaFile("client/merchants.lua")
 
 include("shared.lua")
 include("server/pdata.lua")
