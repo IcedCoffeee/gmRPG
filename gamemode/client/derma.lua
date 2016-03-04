@@ -197,7 +197,7 @@ end)
 
 local charUIVisible = false
 
-hook.Add("Think", "rpg_CharacterMenu", function()
+function GM:OnContextMenuOpen()
 	if input.IsKeyDown(KEY_C) && !gui.IsGameUIVisible() && !charUIVisible then
 
 		local frame = vgui.Create( "DFrame" )
@@ -212,7 +212,7 @@ hook.Add("Think", "rpg_CharacterMenu", function()
 		end
 		frame:MakePopup()
 		frame:Center()
-	
+
 		local DLabel = vgui.Create( "DLabel", frame )
 		DLabel:SetPos( 10, 140 )
 		DLabel:SetText(LocalPlayer():Nick())
@@ -253,4 +253,4 @@ hook.Add("Think", "rpg_CharacterMenu", function()
 		end
 		charUIVisible = true
 	end
-end)
+end
