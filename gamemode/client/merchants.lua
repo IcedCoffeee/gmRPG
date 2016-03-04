@@ -2,9 +2,11 @@ local Beer = { "models/props_junk/garbage_glassbottle003a.mdl", "$10", "chat.Add
 local StrongBeer = { "models/props_junk/garbage_glassbottle001a.mdl", "$15", "chat.AddText(\"You ask for a Strong Beer\")", "Strong Beer"}
 local Coffee = { "models/props_junk/garbage_coffeemug001a.mdl", "$10", "chat.AddText(\"You ask for a Coffee\")", "Coffee"}
 local StrongCoffee = { "models/props_junk/garbage_coffeemug001a.mdl", "$15", "chat.AddText(\"You ask for a Strong Coffee\")", "Strong Coffee"}
+local EnergyDrink = { "models/props_junk/PopCan01a.mdl", "$5", "chat.AddText(\"You ask for an Energy Drink\")", "Energy Drink"}
+local Noodles = { "models/props_junk/garbage_takeoutcarton001a.mdl", "$5", "chat.AddText(\"You ask for Noodles\")", "Noodles"}
 
 local BarItems = {Beer, StrongBeer}
-local CafeItems = {Coffee, StrongCoffee}
+local CafeItems = {Coffee, StrongCoffee, EnergyDrink, Noodles}
 
 function BarMenu()
 	local barText = net.ReadString()
@@ -48,7 +50,7 @@ function BarMenu()
 		item:SetLookAt(item.Entity:GetPos())
 		item:SetFOV(10)
 		item.DoClick = function()
-			RunString(func) -- lazy
+			RunString(func)
 			net.Start("requestPurchase")
 				net.WriteString(text)
 			net.SendToServer()
