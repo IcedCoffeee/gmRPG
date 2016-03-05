@@ -2,6 +2,13 @@ util.AddNetworkString("requestPurchase")
 
 util.AddNetworkString("rpgDrunkify")
 util.AddNetworkString("rpgUndrunkify")
+util.AddNetworkString("rpgUpdateInventory")
+
+local Beer = { "models/props_junk/garbage_glassbottle003a.mdl", "Beer"}
+local StrongBeer = { "models/props_junk/garbage_glassbottle001a.mdl", "Strong Beer"}
+local Coffee = { "models/props_junk/garbage_coffeemug001a.mdl", "Strong Coffee"}
+local EnergyDrink = { "models/props_junk/PopCan01a.mdl", "Energy Drink"}
+local Noodles = { "models/props_junk/garbage_takeoutcarton001a.mdl", "Noodles"}
 
 net.Receive("requestPurchase", function(len, ply)
     if !IsValid(ply) then return false end
@@ -30,18 +37,9 @@ function grantBeer(ply)
     if tonumber(getPlayerMoney(ply)) >= 10 then
         setPlayerMoney(ply, -10)
         ply:ChatPrint("You buy Beer for $10")
-        ply:EmitSound("npc/barnacle/barnacle_gulp1.wav")
-        net.Start("rpgDrunkify")
+        setPlayerInventory(ply, Beer)
+        net.Start("rpgUpdateInventory")
         net.Send(ply)
-        ply.isDrunk = true
-
-        if ply:Health() < 100 then ply:SetHealth(ply:Health() + 5) end
-
-            timer.Simple(60, function()
-                net.Start("rpgUndrunkify")
-                net.Send(ply)
-                ply.isDrunk = false
-            end)
         else
             ply:ChatPrint("You don't have enough money for that!")
         end

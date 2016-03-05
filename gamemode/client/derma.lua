@@ -199,7 +199,7 @@ local charUIVisible = false
 
 function GM:OnContextMenuOpen()
 	if input.IsKeyDown(KEY_C) && !gui.IsGameUIVisible() && !charUIVisible then
-
+		local ply = LocalPlayer()
 		local frame = vgui.Create( "DFrame" )
 		frame:SetPos( 5, 5 )
 		frame:SetSize( 500, 600 )
@@ -254,3 +254,80 @@ function GM:OnContextMenuOpen()
 		charUIVisible = true
 	end
 end
+
+rpgInventory = util.JSONToTable(LocalPlayer():GetNWString("gmrpg_inventory"))
+
+if rpgInventory == nil then
+	rpgInventory = {}
+end
+
+function displayInventory()
+	local ply = LocalPlayer()
+	local frame = vgui.Create("DFrame")
+	frame:SetPos(ScrW() / 2 - 300, ScrH() - 110)
+	frame:SetSize( 600, 100 )
+	frame:SetTitle("Inventory")
+	frame:SetVisible(true)
+	frame:SetDraggable(false)
+	frame:ShowCloseButton(false)
+	frame:MakePopup()
+	frame:SetKeyBoardInputEnabled(false)
+	frame.Paint = function( self, w, h )
+		draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 150 ) )
+	end
+
+	invlist = vgui.Create("DIconLayout", frame)
+	invlist:SetSize(600, 90)
+	invlist:SetPos(5, 10)
+	invlist:SetSpaceY(5)
+	invlist:SetSpaceX(5)
+
+	for k,v in pairs(rpgInventory) do
+		local model   =   v[1]
+		local text    =   v[2]
+		local item = invlist:Add("DModelPanel")
+		item:SetSize(80, 80)
+		item:SetModel(model)
+		item:SetTooltip(text)
+		item:SetLookAt(item.Entity:GetPos())
+		item:SetFOV(10)
+		item.DoClick = function()
+			RunString(func)
+			net.Start("requestUse")
+				net.WriteString(text)
+			net.SendToServer()
+		end
+		item.label = vgui.Create("DLabel", item)
+		item.label:SetText(text)
+		item.label:SizeToContents()
+		item.label:Center()
+		item.label:SetContentAlignment(5)
+	end
+end
+
+net.Receive("rpgUpdateInventory", function()
+	invlist:Clear()
+	for k,v in pairs(rpgInventory) do
+		local model   =   v[1]
+		local tooltip =   v[2]
+		local func    =   v[3]
+		local text    =   v[4]
+		local item = invlist:Add("DModelPanel")
+		item:SetSize(80, 80)
+		item:SetModel(model)
+		item:SetTooltip(text)
+		item:SetLookAt(item.Entity:GetPos())
+		item:SetFOV(10)
+		item.DoClick = function()
+			RunString(func)
+			net.Start("requestUse")
+				net.WriteString(text)
+			net.SendToServer()
+		end
+		item.label = vgui.Create("DLabel", item)
+		item.label:SetText(text)
+		item.label:SizeToContents()
+		item.label:Center()
+		item.label:SetContentAlignment(5)
+	end
+end)

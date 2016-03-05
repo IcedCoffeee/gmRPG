@@ -56,3 +56,21 @@ function resetPlayerStats(ply)
     ply:SetNWString("gmrpg_strength", ply:GetPData("gmrpg_strength", 5))
     ply:SetNWString("gmrpg_intelligence", ply:GetPData("gmrpg_intelligence", 5))
 end
+
+/*/////////////////////////////////////////
+        Inventory PData Functions
+/////////////////////////////////////////*/
+
+function getPlayerInventory(ply)
+    return ply:GetPData("gmrpg_inventory", {})
+end
+
+function setPlayerInventory(ply, item)
+    ply:SetPData("gmrpg_inventory", table.insert({}, item))
+    ply:SetNWString("gmrpg_inventory", util.TableToJSON(ply:GetPData("gmrpg_inventory", {})))
+end
+
+function resetPlayerInventory(ply)
+    ply:SetPData("gmrpg_inventory", {})
+    ply:SetNWString("gmrpg_inventory", util.TableToJSON(ply:GetPData("gmrpg_inventory", {})))
+end

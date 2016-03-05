@@ -20,8 +20,10 @@ hook.Add("PlayerInitialSpawn", "gmrpg_firstspawn", function(ply)
     setPlayerEnergy(ply, 0)
     setPlayerStrength(ply, 0)
     setPlayerIntelligence(ply, 0)
+    resetPlayerInventory(ply)
+    ply.rpgServerInventory = {}
 end)
 
-hook.Add( "PlayerSpray", "DisablePlayerSpray", function(ply)
+hook.Add("PlayerSpray", "DisablePlayerSpray", function(ply)
 	return true
-end )
+end)

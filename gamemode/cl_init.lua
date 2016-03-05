@@ -20,10 +20,6 @@ function GM:CreateMove( cmd )
 
 	v, w = ScrW( ) * .5, ScrH( ) * .5
 
-	--This makes the player aim ( relatively ) where the mouse is on the screen.
-	--I guess higher resolutions could make this more precise ( for the same reason Fahrenheit is more precise than Celsius ), but whatever.
-	--I think I juggled a few ways of doing this until I decided, screw it I'll just atan2. It works better than the other ways
-
 	ang.y = math.deg( math.atan2( v - x, w - y ) )
 
 	if !gui.IsGameUIVisible() then
@@ -67,3 +63,5 @@ hook.Add("CalcView","CameraViewAngles",function(ply, pos, angles, fov)
 	view.fov = 90
 	return view
 end)
+
+displayInventory()

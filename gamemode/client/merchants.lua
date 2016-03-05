@@ -1,9 +1,9 @@
-local Beer = { "models/props_junk/garbage_glassbottle003a.mdl", "$10", "chat.AddText(\"You ask for a Beer\")", "Beer"}
-local StrongBeer = { "models/props_junk/garbage_glassbottle001a.mdl", "$15", "chat.AddText(\"You ask for a Strong Beer\")", "Strong Beer"}
-local Coffee = { "models/props_junk/garbage_coffeemug001a.mdl", "$10", "chat.AddText(\"You ask for a Coffee\")", "Coffee"}
-local StrongCoffee = { "models/props_junk/garbage_coffeemug001a.mdl", "$15", "chat.AddText(\"You ask for a Strong Coffee\")", "Strong Coffee"}
-local EnergyDrink = { "models/props_junk/PopCan01a.mdl", "$5", "chat.AddText(\"You ask for an Energy Drink\")", "Energy Drink"}
-local Noodles = { "models/props_junk/garbage_takeoutcarton001a.mdl", "$5", "chat.AddText(\"You ask for Noodles\")", "Noodles"}
+Beer = { "models/props_junk/garbage_glassbottle003a.mdl", "$10", "chat.AddText(\"You ask for a Beer\")", "Beer"}
+StrongBeer = { "models/props_junk/garbage_glassbottle001a.mdl", "$15", "chat.AddText(\"You ask for a Strong Beer\")", "Strong Beer"}
+Coffee = { "models/props_junk/garbage_coffeemug001a.mdl", "$10", "chat.AddText(\"You ask for a Coffee\")", "Coffee"}
+StrongCoffee = { "models/props_junk/garbage_coffeemug001a.mdl", "$15", "chat.AddText(\"You ask for a Strong Coffee\")", "Strong Coffee"}
+EnergyDrink = { "models/props_junk/PopCan01a.mdl", "$5", "chat.AddText(\"You ask for an Energy Drink\")", "Energy Drink"}
+Noodles = { "models/props_junk/garbage_takeoutcarton001a.mdl", "$5", "chat.AddText(\"You ask for Noodles\")", "Noodles"}
 
 local BarItems = {Beer, StrongBeer}
 local CafeItems = {Coffee, StrongCoffee, EnergyDrink, Noodles}
@@ -72,6 +72,7 @@ function BarMenu()
 	end
 
 end
+
 net.Receive( "rpgBarDermaStart", BarMenu)
 
 function CafeMenu()
@@ -137,4 +138,5 @@ function CafeMenu()
 		frame:Close()
 	end
 end
+
 net.Receive( "rpgCafeDermaStart", CafeMenu)
