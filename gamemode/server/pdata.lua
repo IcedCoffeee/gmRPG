@@ -66,11 +66,29 @@ function getPlayerInventory(ply)
 end
 
 function setPlayerInventory(ply, item)
-    ply:SetPData("gmrpg_inventory", table.insert({}, item))
-    ply:SetNWString("gmrpg_inventory", util.TableToJSON(ply:GetPData("gmrpg_inventory", {})))
+    local newInv = util.JSONToTable(getPlayerInventory(ply))
+    table.insert(newInv, item)
+    ply:SetPData("gmrpg_inventory", util.TableToJSON(newInv))
+    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory", {}))
 end
 
 function resetPlayerInventory(ply)
-    ply:SetPData("gmrpg_inventory", {})
+    ply:SetPData("gmrpg_inventory", util.TableToJSON({}))
     ply:SetNWString("gmrpg_inventory", util.TableToJSON(ply:GetPData("gmrpg_inventory", {})))
+end
+
+function removePlayerItem(ply, item)
+    local inv = util.JSONToTable(getPlayerInventory(ply))
+    PrintTable(inv)
+    for k,v in pairs(inv) do
+        for x,y in pairs(v) do
+            if y == item then
+                local test = table.RemoveByValue(inv, v)
+                break
+            end
+        end
+    end
+    PrintTable(inv)
+    ply:SetPData("gmrpg_inventory", util.TableToJSON(inv))
+    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory", {}))
 end

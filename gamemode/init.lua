@@ -10,7 +10,6 @@ include("server/pdata.lua")
 include("server/player.lua")
 include("server/npc_handling.lua")
 include("server/merchant_items.lua")
-include("server/merchant_items.lua")
 
 gmRPG = gmRPG or {}
 

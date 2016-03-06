@@ -1,4 +1,5 @@
 util.AddNetworkString("requestPurchase")
+util.AddNetworkString("requestUse")
 
 util.AddNetworkString("rpgDrunkify")
 util.AddNetworkString("rpgUndrunkify")
@@ -28,7 +29,6 @@ net.Receive("requestPurchase", function(len, ply)
     elseif requestedItem == "Noodles" then
         grantNoodles(ply)
     end
-
 end)
 
 function grantBeer(ply)
@@ -129,3 +129,31 @@ function grantNoodles(ply)
         ply:ChatPrint("You don't have enough money for that!")
     end
 end
+
+net.Receive("requestUse", function(len, ply)
+    if !IsValid(ply) then return false end
+
+    local requestedItem = net.ReadString()
+    local inv = util.JSONToTable(getPlayerInventory(ply))
+
+    for k, v in pairs(inv) do
+        if requestedItem == "Beer" && requestedItem == v[2] then
+            net.Start("rpgDrunkify")
+            net.Send(ply)
+            removePlayerItem(ply, v[2])
+            net.Start("rpgUpdateInventory")
+            net.Send(ply)
+            break
+        elseif requestedItem == v[2] then
+            grantStrongBeer(ply)
+        elseif requestedItem == v[2]then
+            grantCoffee(ply)
+        elseif requestedItem == v[2] then
+            grantStrongCoffee(ply)
+        elseif requestedItem == v[2] then
+            grantEnergyDrink(ply)
+        elseif requestedItem == v[2] then
+            grantNoodles(ply)
+        end
+    end
+end)
