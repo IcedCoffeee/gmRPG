@@ -8,3 +8,7 @@ DeriveGamemode("base")
 function GM:Initialize()
     print("gmRPG Initialized")
 end
+
+function GM:SetupMove(ply, mv)
+	mv:SetMoveAngles(Angle(0, 0, 0))
+end
