@@ -258,15 +258,17 @@ end
 function displayInventory()
 	rpgInventory = util.JSONToTable(LocalPlayer():GetNWString("gmrpg_inventory"))
 
+	inventoryVisible = true
+
 	if rpgInventory == nil then
 		rpgInventory = {}
 	end
 
 	local ply = LocalPlayer()
 	local invFrame = vgui.Create("DFrame")
-	invFrame:SetPos(ScrW() / 2 - 300, ScrH() - 110)
-	invFrame:SetSize( 600, 100 )
-	invFrame:SetTitle("Inventory")
+	invFrame:SetPos(ScrW() / 2 - 260, ScrH() - 110)
+	invFrame:SetSize( 520, 100 )
+	//invFrame:SetTitle("Inventory")
 	invFrame:SetVisible(true)
 	invFrame:SetDraggable(false)
 	invFrame:ShowCloseButton(false)
@@ -283,8 +285,8 @@ function displayInventory()
 	invlist:SetSpaceX(5)
 
 	for k,v in pairs(rpgInventory) do
-		local model   =   v[1]
-		local text    =   v[2]
+		local model   =   _G[v[1]][1]
+		local text    =   v[1]
 		local item = invlist:Add("DModelPanel")
 		item:SetSize(80, 80)
 		item:SetModel(model)
@@ -299,7 +301,7 @@ function displayInventory()
 		item.label = vgui.Create("DLabel", item)
 		item.label:SetText(text)
 		item.label:SizeToContents()
-		item.label:Center()
+		item.label:SetPos(10, 60)
 		item.label:SetContentAlignment(5)
 	end
 end
@@ -314,8 +316,8 @@ net.Receive("rpgUpdateInventory", function()
 	invlist:Clear()
 
 	for k,v in pairs(rpgInventory) do
-		local model   =   v[1]
-		local text    =   v[2]
+		local model   =   _G[v][1]
+		local text    =   v
 		local item 	  = invlist:Add("DModelPanel")
 		item:SetSize(80, 80)
 		item:SetModel(model)
@@ -330,7 +332,38 @@ net.Receive("rpgUpdateInventory", function()
 		item.label = vgui.Create("DLabel", item)
 		item.label:SetText(text)
 		item.label:SizeToContents()
-		item.label:Center()
+		item.label:SetPos(10, 60)
+		item.label:SetContentAlignment(5)
+	end
+end)
+
+timer.Create("gmrpg_updateInventory", 0.5, 0, function()
+	rpgInventory = util.JSONToTable(LocalPlayer():GetNWString("gmrpg_inventory"))
+
+	if rpgInventory == nil then
+		rpgInventory = {}
+	end
+
+	invlist:Clear()
+
+	for k,v in pairs(rpgInventory) do
+		local model   =   _G[v][1]
+		local text    =   v
+		local item 	  = invlist:Add("DModelPanel")
+		item:SetSize(80, 80)
+		item:SetModel(model)
+		item:SetTooltip(text)
+		item:SetLookAt(item.Entity:GetPos())
+		item:SetFOV(10)
+		item.DoClick = function()
+			net.Start("requestUse")
+				net.WriteString(text)
+			net.SendToServer()
+		end
+		item.label = vgui.Create("DLabel", item)
+		item.label:SetText(text)
+		item.label:SizeToContents()
+		item.label:SetPos(10, 60)
 		item.label:SetContentAlignment(5)
 	end
 end)

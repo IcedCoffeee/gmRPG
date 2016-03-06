@@ -14,10 +14,11 @@ function GM:PlayerSpawn(ply)
 	ply.coffeeDrank = 0
 end
 
-hook.Add("PlayerDeath", "gmrpg_stopSpammingSuicide", function(victim, inflictor, attacker )
+hook.Add("PlayerDeath", "gmrpg_stopSpammingSuicide", function(victim, inflictor, attacker)
     if tonumber(getPlayerMoney(victim)) > 20 then
         setPlayerMoney(victim, -20)
     end
 	net.Start("rpgUndrunkify")
 	net.Send(victim)
+	resetPlayerInventory(victim)
 end)

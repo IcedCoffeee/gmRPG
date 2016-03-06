@@ -64,4 +64,7 @@ hook.Add("CalcView","CameraViewAngles",function(ply, pos, angles, fov)
 	return view
 end)
 
-displayInventory()
+// stops overlapping inventory frames when screwing with derma file
+if !inventoryVisible then
+	displayInventory()
+end

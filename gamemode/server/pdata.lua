@@ -70,25 +70,22 @@ function setPlayerInventory(ply, item)
     table.insert(newInv, item)
     ply:SetPData("gmrpg_inventory", util.TableToJSON(newInv))
     ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory", {}))
+    PrintTable(newInv)
 end
 
 function resetPlayerInventory(ply)
     ply:SetPData("gmrpg_inventory", util.TableToJSON({}))
-    ply:SetNWString("gmrpg_inventory", util.TableToJSON(ply:GetPData("gmrpg_inventory", {})))
+    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory", {}))
 end
 
 function removePlayerItem(ply, item)
     local inv = util.JSONToTable(getPlayerInventory(ply))
     local foundit = false
-    for k,v in pairs(inv) do
-        if !foundit then
-            for x,y in pairs(v) do
-                if y == item then
-                    local test = table.RemoveByValue(inv, v)
-                    foundit = true
-                    break
-                end
-            end
+    for k, v in pairs(inv) do
+        if v == item && !foundit then
+            local test = table.RemoveByValue(inv, v)
+            foundit = true
+            break
         end
     end
     ply:SetPData("gmrpg_inventory", util.TableToJSON(inv))
@@ -96,17 +93,6 @@ function removePlayerItem(ply, item)
 end
 
 function updatePlayerInventory(ply)
-    // 3 times because slow connections will not recieve updated inventory in time
-    timer.Simple(0.1, function()
-            net.Start("rpgUpdateInventory")
-            net.Send(ply)
-    end)
-    timer.Simple(0.1, function()
-            net.Start("rpgUpdateInventory")
-            net.Send(ply)
-    end)
-    timer.Simple(0.1, function()
-            net.Start("rpgUpdateInventory")
-            net.Send(ply)
-    end)
+    net.Start("rpgUpdateInventory")
+    net.Send(ply)
 end
