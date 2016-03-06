@@ -255,15 +255,15 @@ function GM:OnContextMenuOpen()
 	end
 end
 
-rpgInventory = util.JSONToTable(LocalPlayer():GetNWString("gmrpg_inventory"))
-
-if rpgInventory == nil then
-	rpgInventory = {}
-end
-
 function displayInventory()
+	rpgInventory = util.JSONToTable(LocalPlayer():GetNWString("gmrpg_inventory"))
+
+	if rpgInventory == nil then
+		rpgInventory = {}
+	end
+
 	local ply = LocalPlayer()
-	invFrame = vgui.Create("DFrame")
+	local invFrame = vgui.Create("DFrame")
 	invFrame:SetPos(ScrW() / 2 - 300, ScrH() - 110)
 	invFrame:SetSize( 600, 100 )
 	invFrame:SetTitle("Inventory")
@@ -281,7 +281,7 @@ function displayInventory()
 	invlist:SetPos(5, 10)
 	invlist:SetSpaceY(5)
 	invlist:SetSpaceX(5)
-	
+
 	for k,v in pairs(rpgInventory) do
 		local model   =   v[1]
 		local text    =   v[2]
@@ -305,28 +305,13 @@ function displayInventory()
 end
 
 net.Receive("rpgUpdateInventory", function()
-	invFrame:Close()
-	LocalPlayer():ChatPrint("dfsasdf")
+	rpgInventory = util.JSONToTable(LocalPlayer():GetNWString("gmrpg_inventory"))
 
-	local ply = LocalPlayer()
-	invFrame = vgui.Create("DFrame")
-	invFrame:SetPos(ScrW() / 2 - 300, ScrH() - 110)
-	invFrame:SetSize( 600, 100 )
-	invFrame:SetTitle("Inventory")
-	invFrame:SetVisible(true)
-	invFrame:SetDraggable(false)
-	invFrame:ShowCloseButton(false)
-	invFrame:MakePopup()
-	invFrame:SetKeyBoardInputEnabled(false)
-	invFrame.Paint = function( self, w, h )
-		draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 150 ) )
+	if rpgInventory == nil then
+		rpgInventory = {}
 	end
 
-	invlist = vgui.Create("DIconLayout", invFrame)
-	invlist:SetSize(600, 90)
-	invlist:SetPos(5, 10)
-	invlist:SetSpaceY(5)
-	invlist:SetSpaceX(5)
+	invlist:Clear()
 
 	for k,v in pairs(rpgInventory) do
 		local model   =   v[1]

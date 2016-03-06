@@ -38,8 +38,7 @@ function grantBeer(ply)
         setPlayerMoney(ply, -10)
         ply:ChatPrint("You buy Beer for $10")
         setPlayerInventory(ply, Beer)
-        net.Start("rpgUpdateInventory")
-        net.Send(ply)
+        updatePlayerInventory(ply)
         else
             ply:ChatPrint("You don't have enough money for that!")
         end
@@ -141,8 +140,7 @@ net.Receive("requestUse", function(len, ply)
             net.Start("rpgDrunkify")
             net.Send(ply)
             removePlayerItem(ply, v[2])
-            net.Start("rpgUpdateInventory")
-            net.Send(ply)
+            updatePlayerInventory(ply)
             break
         elseif requestedItem == v[2] then
             grantStrongBeer(ply)

@@ -79,16 +79,34 @@ end
 
 function removePlayerItem(ply, item)
     local inv = util.JSONToTable(getPlayerInventory(ply))
-    PrintTable(inv)
+    local foundit = false
     for k,v in pairs(inv) do
-        for x,y in pairs(v) do
-            if y == item then
-                local test = table.RemoveByValue(inv, v)
-                break
+        if !foundit then
+            for x,y in pairs(v) do
+                if y == item then
+                    local test = table.RemoveByValue(inv, v)
+                    foundit = true
+                    break
+                end
             end
         end
     end
-    PrintTable(inv)
     ply:SetPData("gmrpg_inventory", util.TableToJSON(inv))
     ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory", {}))
+end
+
+function updatePlayerInventory(ply)
+    // 3 times because slow connections will not recieve updated inventory in time
+    timer.Simple(0.1, function()
+            net.Start("rpgUpdateInventory")
+            net.Send(ply)
+    end)
+    timer.Simple(0.1, function()
+            net.Start("rpgUpdateInventory")
+            net.Send(ply)
+    end)
+    timer.Simple(0.1, function()
+            net.Start("rpgUpdateInventory")
+            net.Send(ply)
+    end)
 end
