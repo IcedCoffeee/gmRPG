@@ -23,7 +23,7 @@ if SERVER then
 			timer.Simple(3, function()
 				Activator.cantUseBed = false
 				Activator:ChatPrint("You awake feeling well rested")
-				if ply:Health() < 100 then ply:SetHealth(ply:Health() + 10) end
+				if Activator:Health() < 100 then Activator:SetHealth(Activator:Health() + 10) end
 				Activator:UnLock()
 				Activator.coffeeDrank = 0
 			end)
