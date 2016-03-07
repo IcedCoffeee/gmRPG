@@ -150,7 +150,7 @@ function DrugMenu()
 	local frame = vgui.Create( "DFrame" )
 	frame:SetPos( 5, 5 )
 	frame:SetSize( 500, 300 )
-	frame:SetTitle( "Cafe Worker" )
+	frame:SetTitle( "Drug Dealer" )
 	frame:SetVisible( true )
 	frame:SetDraggable( true )
 	frame:ShowCloseButton( false )
@@ -207,4 +207,4 @@ function DrugMenu()
 	end
 end
 
-net.Receive( "rpgDrugDermaStart", CafeMenu)
+net.Receive( "rpgDrugDermaStart", DrugMenu)

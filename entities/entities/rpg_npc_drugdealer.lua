@@ -16,7 +16,7 @@ local merchantText = "What do you want?"
 
 if SERVER then
     function ENT:Initialize( )
-    	self:SetModel( "models/player/group03/male_03.mdl" )
+    	self:SetModel( "models/humans/group03/male_03.mdl" )
     	self:SetHullType( HULL_HUMAN )
     	self:SetHullSizeNormal( )
     	self:SetNPCState( NPC_STATE_SCRIPT )

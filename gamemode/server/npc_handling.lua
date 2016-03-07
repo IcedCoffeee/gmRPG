@@ -4,6 +4,7 @@ util.AddNetworkString("rpgSchoolDermaStart")
 util.AddNetworkString("rpgBarDermaStart")
 util.AddNetworkString("rpgCafeDermaStart")
 util.AddNetworkString("rpgCivilianDermaStart")
+util.AddNetworkString("rpgDrugDermaStart")
 
 util.AddNetworkString("requestEmployment")
 util.AddNetworkString("requestGym")

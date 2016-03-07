@@ -22,25 +22,23 @@ net.Receive("requestPurchase", function(len, ply)
         return false
     end
 
+    ply.invSize = ply.invSize + 1
+
     if requestedItem == "Beer" then
         grantBeer(ply)
-        ply.invSize = ply.invSize + 1
         updatePlayerInventory(ply)
     elseif requestedItem == "Strong Beer" then
         grantStrongBeer(ply)
-        ply.invSize = ply.invSize + 1
     elseif requestedItem == "Coffee" then
         grantCoffee(ply)
-        ply.invSize = ply.invSize + 1
     elseif requestedItem == "Strong Coffee" then
         grantStrongCoffee(ply)
-        ply.invSize = ply.invSize + 1
     elseif requestedItem == "Energy Drink" then
         grantEnergyDrink(ply)
-        ply.invSize = ply.invSize + 1
     elseif requestedItem == "Noodles" then
         grantNoodles(ply)
-        ply.invSize = ply.invSize + 1
+    elseif requestedItem == "Caffeine Pills" then
+        grantCaffeinePills(ply)
     end
     ply:EmitSound("ambient/office/coinslot1.wav")
 end)
@@ -69,6 +67,9 @@ net.Receive("requestUse", function(len, ply)
             break
         elseif requestedItem == "Noodles" && requestedItem == v then
             useNoodles(ply, v)
+            break
+        elseif requestedItem == "CaffeinePills" && requestedItem == v then
+            useCaffeinePills(ply, v)
             break
         end
     end

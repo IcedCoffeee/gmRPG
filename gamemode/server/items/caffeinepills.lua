@@ -22,7 +22,7 @@ function useCaffeinePills(ply, item)
     ply.coffeeDrank = ply.coffeeDrank + 1
     if ply.coffeeDrank >= 4 then
         ply:TakeDamage(20, game.GetWorld(), game.GetWorld())
-        ply:ChatPrint("You intaking too much caffeine, sleep it off!")
+        ply:ChatPrint("You are intaking too much caffeine, sleep it off!")
     end
 
     //////////////////////////////////////////////
