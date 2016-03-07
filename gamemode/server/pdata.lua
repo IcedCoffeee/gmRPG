@@ -60,22 +60,29 @@ end
 /*/////////////////////////////////////////
         Inventory PData Functions
 /////////////////////////////////////////*/
+util.AddNetworkString("rpgRequestInventory")
+util.AddNetworkString("rpgSendInventory")
 
 function getPlayerInventory(ply)
-    return ply:GetPData("gmrpg_inventory", {})
+    return ply:GetPData("gmrpg_inventory")
 end
 
 function setPlayerInventory(ply, item)
     local newInv = util.JSONToTable(getPlayerInventory(ply))
+    if newInv == nil then
+        newInv = {}
+    end
     table.insert(newInv, item)
     ply:SetPData("gmrpg_inventory", util.TableToJSON(newInv))
-    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory", {}))
-    PrintTable(newInv)
+    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory"))
+    updatePlayerInventory(ply)
 end
 
 function resetPlayerInventory(ply)
     ply:SetPData("gmrpg_inventory", util.TableToJSON({}))
-    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory", {}))
+    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory"))
+    ply.invSize = 0
+    updatePlayerInventory(ply)
 end
 
 function removePlayerItem(ply, item)
@@ -89,10 +96,18 @@ function removePlayerItem(ply, item)
         end
     end
     ply:SetPData("gmrpg_inventory", util.TableToJSON(inv))
-    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory", {}))
+    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory"))
+    updatePlayerInventory(ply)
 end
 
 function updatePlayerInventory(ply)
-    net.Start("rpgUpdateInventory")
+    net.Start("rpgSendInventory")
+        net.WriteString(getPlayerInventory(ply))
     net.Send(ply)
 end
+
+net.Receive("rpgRequestInventory", function(len, ply)
+    net.Start("rpgSendInventory")
+        net.WriteString(getPlayerInventory(ply))
+    net.Send(ply)
+end)

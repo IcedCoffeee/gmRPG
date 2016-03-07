@@ -33,28 +33,13 @@ camPos = -60
 hook.Add("CalcView","CameraViewAngles",function(ply, pos, angles, fov)
 
 	if input.IsKeyDown(KEY_UP) && !gui.IsGameUIVisible() then
-		zoom = zoom - 1
-		camPos = camPos + 0.2
+		rpgZoomIn()
 	elseif input.IsKeyDown(KEY_DOWN) && !gui.IsGameUIVisible() then
-		zoom = zoom + 1
-		camPos = camPos - 0.2
+		rpgZoomOut()
 	end
 
 	if input.IsKeyDown(KEY_LEFT) && !gui.IsGameUIVisible() then
-		zoom = 300
-		camPos = -60
-	end
-
-	if zoom > 400 then
-		zoom = 400
-	elseif zoom < 100 then
-		zoom = 100
-	end
-
-	if camPos < -80 then
-		camPos = -80
-	elseif camPos > -20 then
-		camPos = -20
+		rpgZoomReset()
 	end
 
 	local view = {}
@@ -67,4 +52,40 @@ end)
 // stops overlapping inventory frames when screwing with derma file
 if !inventoryVisible then
 	displayInventory()
+	displayCamControls()
+end
+
+function rpgZoomIn()
+	zoom = zoom - 1
+	camPos = camPos + 0.2
+	if zoom > 400 then
+		zoom = 400
+	elseif zoom < 100 then
+		zoom = 100
+	end
+	if camPos < -80 then
+		camPos = -80
+	elseif camPos > -20 then
+		camPos = -20
+	end
+end
+
+function rpgZoomOut()
+	zoom = zoom + 1
+	camPos = camPos - 0.2
+	if zoom > 400 then
+		zoom = 400
+	elseif zoom < 100 then
+		zoom = 100
+	end
+	if camPos < -80 then
+		camPos = -80
+	elseif camPos > -20 then
+		camPos = -20
+	end
+end
+
+function rpgZoomReset()
+	zoom = 300
+	camPos = -60
 end
