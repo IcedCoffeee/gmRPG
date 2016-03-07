@@ -1,4 +1,4 @@
-"superkillers"
+"gmRPG"
 {
 	"base"		"base"
 	"title"		"gmRPG"
