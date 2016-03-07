@@ -362,7 +362,7 @@ function displayCamControls()
 
 	local zoomOut = vgui.Create( "DButton", camFrame )
 	zoomOut:SetPos(5, 50)
-	zoomOut:SetText( "Zoom In" )
+	zoomOut:SetText( "Zoom Out" )
 	zoomOut:SetSize( 90, 40 )
 	zoomOut.Think = function()
 		if zoomOut:IsDown() then
