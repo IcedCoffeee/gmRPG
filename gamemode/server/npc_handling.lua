@@ -4,6 +4,7 @@ util.AddNetworkString("rpgSchoolDermaStart")
 util.AddNetworkString("rpgBarDermaStart")
 util.AddNetworkString("rpgCafeDermaStart")
 util.AddNetworkString("rpgCivilianDermaStart")
+util.AddNetworkString("rpgDrugDermaStart")
 
 util.AddNetworkString("requestEmployment")
 util.AddNetworkString("requestGym")
@@ -18,18 +19,18 @@ net.Receive("requestEmployment", function(len, ply)
 
     if !IsValid(ply) || !IsValid(npcEnt) || ply:GetPos():Distance(npcEnt:GetPos()) > 128 then return false end
 
-    if tonumber(getPlayerIntelligence(ply)) < npcEnt.intRequired then
+    if tonumber(ply:getIntelligence()) < npcEnt.intRequired then
         ply:ChatPrint( "You don't have the required intelligence!" )
         return false
     end
 
-    if tonumber(getPlayerEnergy(ply)) >= npcEnt.energyRequired && !ply.isDrunk then
+    if tonumber(ply:getEnergy()) >= npcEnt.energyRequired && !ply.isDrunk then
         ply:Lock()
         ply:ScreenFade(SCREENFADE.OUT, Color(0,0,0), 1, 1 )
         timer.Simple(1, function()
         ply:UnLock()
-        setPlayerMoney(ply, npcEnt.outcomePay[selectedOutcome])
-        setPlayerEnergy(ply, -npcEnt.energyRequired)
+        ply:setMoney(npcEnt.outcomePay[selectedOutcome])
+        ply:setEnergy(-npcEnt.energyRequired)
 
         net.Start("rpgEmploymentResultDermaStart")
             net.WriteString(npcEnt.outcomes[selectedOutcome])
@@ -37,7 +38,7 @@ net.Receive("requestEmployment", function(len, ply)
         ply:EmitSound("ambient/office/coinslot1.wav")
         return true
         end)
-        else if tonumber(getPlayerEnergy(ply)) < npcEnt.energyRequired then
+        else if tonumber(ply:getEnergy()) < npcEnt.energyRequired then
             ply:ChatPrint( "You don't have enough energy for that!" )
             return false
         else
@@ -52,13 +53,13 @@ net.Receive("requestGym", function(len, ply)
     local npcEnt = net.ReadEntity()
 
     if !IsValid(ply) || !IsValid(npcEnt) || ply:GetPos():Distance(npcEnt:GetPos()) > 128 then return false end
-    if tonumber(getPlayerEnergy(ply)) >= 5 && tonumber(getPlayerMoney(ply)) > 50 then
-        setPlayerMoney(ply, -50)
-        setPlayerEnergy(ply, -5)
-        setPlayerStrength(ply, 1)
+    if tonumber(ply:getEnergy()) >= 5 && tonumber(ply:getMoney()) > 50 then
+        ply:setMoney(-50)
+        ply:setEnergy(-5)
+        ply:setStrength(1)
         ply:ChatPrint("You work out, losing 5 energy and $50")
         ply:ChatPrint("Strength + 1")
-        else if tonumber(getPlayerEnergy(ply)) < 5 then
+        else if tonumber(ply:getEnergy()) < 5 then
             ply:ChatPrint( "You don't have enough energy for that!" )
         else
             ply:ChatPrint( "You don't have enough money for that!" )
@@ -71,13 +72,13 @@ net.Receive("requestSchool", function(len, ply)
     local npcEnt = net.ReadEntity()
 
     if !IsValid(ply) || !IsValid(npcEnt) || ply:GetPos():Distance(npcEnt:GetPos()) > 128 then return false end
-    if tonumber(getPlayerEnergy(ply)) >= 2 && tonumber(getPlayerMoney(ply)) > 50 then
-        setPlayerMoney(ply, -50)
-        setPlayerEnergy(ply, -2)
-        setPlayerIntelligence(ply, 1)
+    if tonumber(ply:getEnergy()) >= 2 && tonumber(ply:getMoney()) > 50 then
+        ply:setMoney(-50)
+        ply:setEnergy(-2)
+        ply:setIntelligence(1)
         ply:ChatPrint("You study hard, losing $50")
         ply:ChatPrint("Intelligence + 1")
-    else if tonumber(getPlayerEnergy(ply)) < 2 then
+    else if tonumber(ply:getEnergy()) < 2 then
             ply:ChatPrint( "You don't have enough energy for that!" )
         else
             ply:ChatPrint( "You don't have enough money for that!" )
