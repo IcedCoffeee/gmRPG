@@ -73,7 +73,7 @@ function BarMenu()
 
 end
 
-net.Receive( "rpgBarDermaStart", BarMenu)
+net.Receive("rpgBarDermaStart", BarMenu)
 
 function CafeMenu()
 	local cafeText = net.ReadString()

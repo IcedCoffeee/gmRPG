@@ -262,6 +262,8 @@ function displayInventory()
 
 	inventoryVisible = true
 
+	rpgInventory = {}
+
 	local ply = LocalPlayer()
 	local invFrame = vgui.Create("DFrame")
 	invFrame:SetPos(ScrW() / 2 - 260, ScrH() - 110)
