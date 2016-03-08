@@ -65,37 +65,16 @@ end
 util.AddNetworkString("rpgRequestInventory")
 util.AddNetworkString("rpgSendInventory")
 
-<<<<<<< HEAD
-function getPlayerInventory(ply)
-    return ply:GetPData("gmrpg_inventory")
-end
-
-function setPlayerInventory(ply, item)
-    local newInv = util.JSONToTable(getPlayerInventory(ply))
-=======
 function meta:getInventory()
     return util.JSONToTable(self:GetPData("gmrpg_inventory"))
 end
 
 function meta:addInventory(item)
     local newInv = self:getInventory()
->>>>>>> refs/remotes/origin/pr/10
     if newInv == nil then
         newInv = {}
     end
     table.insert(newInv, item)
-<<<<<<< HEAD
-    ply:SetPData("gmrpg_inventory", util.TableToJSON(newInv))
-    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory"))
-    updatePlayerInventory(ply)
-end
-
-function resetPlayerInventory(ply)
-    ply:SetPData("gmrpg_inventory", util.TableToJSON({}))
-    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory"))
-    ply.invSize = 0
-    updatePlayerInventory(ply)
-=======
     self:SetPData("gmrpg_inventory", util.TableToJSON(newInv))
     self:updateInventory()
 end
@@ -103,7 +82,6 @@ end
 function meta:resetInventory()
     self:SetPData("gmrpg_inventory", util.TableToJSON({}))
     self:updateInventory()
->>>>>>> refs/remotes/origin/pr/10
 end
 
 function meta:removeItem(item)
@@ -114,24 +92,6 @@ function meta:removeItem(item)
         self:SetPData("gmrpg_inventory", util.TableToJSON(inv))
         self:updateInventory()
     end
-<<<<<<< HEAD
-    ply:SetPData("gmrpg_inventory", util.TableToJSON(inv))
-    ply:SetNWString("gmrpg_inventory", ply:GetPData("gmrpg_inventory"))
-    updatePlayerInventory(ply)
-end
-
-function updatePlayerInventory(ply)
-    net.Start("rpgSendInventory")
-        net.WriteString(getPlayerInventory(ply))
-    net.Send(ply)
-end
-
-net.Receive("rpgRequestInventory", function(len, ply)
-    net.Start("rpgSendInventory")
-        net.WriteString(getPlayerInventory(ply))
-    net.Send(ply)
-=======
-
     
 end
 
@@ -145,5 +105,4 @@ net.Receive("rpgRequestInventory", function(len, ply)
     net.Start("rpgSendInventory")
         net.WriteString(util.TableToJSON(self:getInventory()))
     net.Send(self)
->>>>>>> refs/remotes/origin/pr/10
 end)

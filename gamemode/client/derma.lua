@@ -315,10 +315,7 @@ function displayInventory()
 end
 
 function updateInventory()
-<<<<<<< HEAD
-=======
 	rpgInventory = util.JSONToTable(net.ReadString())
->>>>>>> refs/remotes/origin/pr/10
 	invlist:Clear()
 
 	for k,v in pairs(rpgInventory) do
@@ -351,14 +348,7 @@ function updateInventory()
 	end
 end
 
-<<<<<<< HEAD
-net.Receive("rpgSendInventory", function()
-	rpgInventory = util.JSONToTable(net.ReadString())
-	updateInventory()
-end)
-=======
 net.Receive("rpgSendInventory", updateInventory)
->>>>>>> refs/remotes/origin/pr/10
 
 function displayCamControls()
 	local ply = LocalPlayer()
