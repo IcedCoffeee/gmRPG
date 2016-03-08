@@ -1,8 +1,11 @@
+gmRPG = gmRPG or {}
+
 include("shared.lua")
 include("client/hud.lua")
 include("client/derma.lua")
 include("client/pp.lua")
 include("client/merchants.lua")
+include("shared/items.lua")
 
 hook.Add("ShouldDrawLocalPlayer", "ShouldDrawPlayer", function(ply)
 		return true

@@ -198,7 +198,7 @@ end)
 local charUIVisible = false
 
 function GM:OnContextMenuOpen()
-	if input.IsKeyDown(KEY_C) && !gui.IsGameUIVisible() && !charUIVisible then
+	if !gui.IsGameUIVisible() && !charUIVisible then
 		local ply = LocalPlayer()
 		local frame = vgui.Create( "DFrame" )
 		frame:SetPos( 5, 5 )
@@ -285,17 +285,25 @@ function displayInventory()
 	invlist:SetSpaceX(5)
 
 	for k,v in pairs(rpgInventory) do
-		local model   =   _G[v[1]][1]
-		local text    =   v[1]
-		local item = invlist:Add("DModelPanel")
+		local temp = {}
+		for i=1, #gmRPG.items do
+			if gmRPG.items[i].id == v then
+				temp = gmRPG.items[i]
+			end
+		end
+		local id 	  =   temp.id
+		local model   =   temp.model
+		local text    =   temp.name
+		local tooltip =   "$" .. temp.price
+		local item 	  =   invlist:Add("DModelPanel")
 		item:SetSize(80, 80)
 		item:SetModel(model)
-		item:SetTooltip(text)
+		item:SetTooltip(tooltip)
 		item:SetLookAt(item.Entity:GetPos())
 		item:SetFOV(10)
 		item.DoClick = function()
 			net.Start("requestUse")
-				net.WriteString(text)
+				net.WriteString(id)
 			net.SendToServer()
 		end
 		item.label = vgui.Create("DLabel", item)
@@ -307,20 +315,32 @@ function displayInventory()
 end
 
 function updateInventory()
+<<<<<<< HEAD
+=======
+	rpgInventory = util.JSONToTable(net.ReadString())
+>>>>>>> refs/remotes/origin/pr/10
 	invlist:Clear()
 
 	for k,v in pairs(rpgInventory) do
-		local model   =   _G[v][1]
-		local text    =   v
-		local item 	  = invlist:Add("DModelPanel")
+		local temp = {}
+		for i=1, #gmRPG.items do
+			if gmRPG.items[i].id == v then
+				temp = gmRPG.items[i]
+			end
+		end
+		local id 	  =   temp.id
+		local model   =   temp.model
+		local text    =   temp.name
+		local tooltip =   "$" .. temp.price
+		local item 	  =   invlist:Add("DModelPanel")
 		item:SetSize(80, 80)
 		item:SetModel(model)
-		item:SetTooltip(text)
+		item:SetTooltip(tooltip)
 		item:SetLookAt(item.Entity:GetPos())
 		item:SetFOV(10)
 		item.DoClick = function()
 			net.Start("requestUse")
-				net.WriteString(text)
+				net.WriteString(id)
 			net.SendToServer()
 		end
 		item.label = vgui.Create("DLabel", item)
@@ -331,10 +351,14 @@ function updateInventory()
 	end
 end
 
+<<<<<<< HEAD
 net.Receive("rpgSendInventory", function()
 	rpgInventory = util.JSONToTable(net.ReadString())
 	updateInventory()
 end)
+=======
+net.Receive("rpgSendInventory", updateInventory)
+>>>>>>> refs/remotes/origin/pr/10
 
 function displayCamControls()
 	local ply = LocalPlayer()
