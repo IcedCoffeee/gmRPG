@@ -318,17 +318,10 @@ function updateInventory()
 	rpgInventory = util.JSONToTable(net.ReadString())
 	invlist:Clear()
 
-	for k,v in pairs(rpgInventory) do
-		local temp = {}
-		for i=1, #gmRPG.items do
-			if gmRPG.items[i].id == v then
-				temp = gmRPG.items[i]
-			end
-		end
-		local id 	  =   temp.id
-		local model   =   temp.model
-		local text    =   temp.name
-		local tooltip =   "$" .. temp.price
+	for _,v in pairs(rpgInventory) do
+		local model   =   gmRPG.items[v]().model
+		local text    =   gmRPG.items[v]().name
+		local tooltip =   "$" .. gmRPG.items[v]().price
 		local item 	  =   invlist:Add("DModelPanel")
 		item:SetSize(80, 80)
 		item:SetModel(model)
@@ -337,7 +330,7 @@ function updateInventory()
 		item:SetFOV(10)
 		item.DoClick = function()
 			net.Start("requestUse")
-				net.WriteString(id)
+				net.WriteString(v)
 			net.SendToServer()
 		end
 		item.label = vgui.Create("DLabel", item)
