@@ -45,6 +45,12 @@ hook.Add("CalcView","CameraViewAngles",function(ply, pos, angles, fov)
 		rpgZoomReset()
 	end
 
+	if input.IsMouseDown(MOUSE_WHEEL_UP) && !gui.IsGameUIVisible() then
+		rpgZoomIn()
+	elseif input.IsMouseDown(MOUSE_WHEEL_DOWN) && !gui.IsGameUIVisible() then
+		rpgZoomOut()
+	end
+
 	local view = {}
 	view.origin = pos + Vector(camPos,0,0) + (angles:Up() * zoom) + (angles:Forward() * 10)
 	view.angles = Angle(80,0,0)
@@ -55,7 +61,7 @@ end)
 // stops overlapping inventory frames when screwing with derma file
 if !inventoryVisible then
 	displayInventory()
-	displayCamControls()
+	displayControls()
 end
 
 function rpgZoomIn()
