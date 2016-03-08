@@ -86,7 +86,7 @@ function gmRPG.items:coffee()
         price = 5,
         merchant =  "cafe",
         model = "models/props_junk/garbage_coffeemug001a.mdl",
-        itemfnc = useCoffee
+        itemfunc = useCoffee
     }
     return itemdata
 end
