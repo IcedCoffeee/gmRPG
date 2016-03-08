@@ -74,9 +74,15 @@ function meta:addInventory(item)
     if newInv == nil then
         newInv = {}
     end
-    table.insert(newInv, item)
-    self:SetPData("gmrpg_inventory", util.TableToJSON(newInv))
-    self:updateInventory()
+    if #newInv >= 6 then
+        self:ChatPrint("Your inventory is full.")
+        return false
+    else
+        table.insert(newInv, item)
+        self:SetPData("gmrpg_inventory", util.TableToJSON(newInv))
+        self:updateInventory()
+        return true
+    end
 end
 
 function meta:resetInventory()
