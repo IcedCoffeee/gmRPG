@@ -77,5 +77,4 @@ net.Receive("requestPurchase", function(len, ply)
             end
         end
     end
-
 end)]]

@@ -104,6 +104,6 @@ end
 
 net.Receive("rpgRequestInventory", function(len, ply)
     net.Start("rpgSendInventory")
-        net.WriteString(util.TableToJSON(self:getInventory()))
-    net.Send(self)
+        net.WriteString(util.TableToJSON(ply:getInventory()))
+    net.Send(ply)
 end)
