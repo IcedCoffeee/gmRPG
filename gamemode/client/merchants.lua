@@ -37,12 +37,19 @@ function BarMenu()
 	invlist:SetSpaceY( 5 )
 	invlist:SetSpaceX( 5 )
 
+	local closeButton = vgui.Create( "DButton", frame )
+	closeButton:SetPos( 200, 250 )
+	closeButton:SetText( "Close" )
+	closeButton:SetSize( 120, 40 )
+	closeButton.DoClick = function()
+		frame:Close()
+	end
+
 	for k,v in pairs(gmRPG.items) do
-		if gmRPG.items[k].merchant != "bar" then continue end
-		local model   =		gmRPG.items[k].model
-		local tooltip =		"$" .. gmRPG.items[k].price
-		local text	=		gmRPG.items[k].name
-		local id =			gmRPG.items[k].id
+		if v().merchant != "bar" then continue end
+		local model   =		v().model
+		local tooltip =		"$" .. v().price
+		local text	=		v().name
 
 		local item = invlist:Add( "DModelPanel" )
 		item:SetSize( 80, 80 )
@@ -52,7 +59,7 @@ function BarMenu()
 		item:SetFOV(10)
 		item.DoClick = function()
 			net.Start("requestPurchase")
-				net.WriteString(id)
+				net.WriteString(k)
 			net.SendToServer()
 		end
 
@@ -62,15 +69,6 @@ function BarMenu()
 		item.label:Center()
 		item.label:SetContentAlignment(5)
 	end
-
-	local closeButton = vgui.Create( "DButton", frame )
-	closeButton:SetPos( 200, 250 )
-	closeButton:SetText( "Close" )
-	closeButton:SetSize( 120, 40 )
-	closeButton.DoClick = function()
-		frame:Close()
-	end
-
 end
 
 net.Receive("rpgBarDermaStart", BarMenu)
@@ -112,11 +110,10 @@ function CafeMenu()
 	invlist:SetSpaceX( 5 ) //Sets the space in between the panels on the Y Axis by 5
 
 	for k,v in pairs(gmRPG.items) do
-		if gmRPG.items[k].merchant != "cafe" then continue end
-		local model   =		gmRPG.items[k].model
-		local tooltip =		"$" .. gmRPG.items[k].price
-		local text	=		gmRPG.items[k].name
-		local id =			gmRPG.items[k].id
+		if v().merchant != "cafe" then continue end
+		local model   =		v().model
+		local tooltip =		"$" .. v().price
+		local text	=		v().name
 
 		local item = invlist:Add( "DModelPanel" )
 		item:SetSize( 80, 80 )
@@ -126,7 +123,7 @@ function CafeMenu()
 		item:SetFOV(10)
 		item.DoClick = function()
 			net.Start("requestPurchase")
-				net.WriteString(id)
+				net.WriteString(k)
 			net.SendToServer()
 		end
 
@@ -170,11 +167,10 @@ function DrugMenu()
 	invlist:SetSpaceX( 5 ) //Sets the space in between the panels on the Y Axis by 5
 
 	for k,v in pairs(gmRPG.items) do
-		if gmRPG.items[k].merchant != "drug" then continue end
-		local model   =		gmRPG.items[k].model
-		local tooltip =		"$" .. gmRPG.items[k].price
-		local text	=		gmRPG.items[k].name
-		local id =			gmRPG.items[k].id
+		if v().merchant != "drug" then continue end
+		local model   =		v().model
+		local tooltip =		"$" .. v().price
+		local text	=		v().name
 
 		local item = invlist:Add( "DModelPanel" )
 		item:SetSize( 80, 80 )
@@ -184,7 +180,7 @@ function DrugMenu()
 		item:SetFOV(10)
 		item.DoClick = function()
 			net.Start("requestPurchase")
-				net.WriteString(id)
+				net.WriteString(k)
 			net.SendToServer()
 		end
 

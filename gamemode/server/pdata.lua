@@ -91,9 +91,9 @@ function meta:removeItem(item)
     if remove != false then
         self:SetPData("gmrpg_inventory", util.TableToJSON(inv))
         self:updateInventory()
+        return true
     end
-
-    
+    return false
 end
 
 function meta:updateInventory()
