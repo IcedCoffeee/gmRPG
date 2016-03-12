@@ -16,18 +16,20 @@ ENT.Spawnable       = true
 ENT.energyRequired  = 3
 ENT.intRequired     = 20
 
-ENT.outcomePay      = {}
-ENT.outcomePay[0]   = 80
-ENT.outcomePay[1]   = 90
-ENT.outcomePay[2]   = 100
+ENT.wage            = 80
+
+ENT.outcomeBonus      = {}
+ENT.outcomeBonus[0]   = 0
+ENT.outcomeBonus[1]   = 10
+ENT.outcomeBonus[2]   = 20
 
 ENT.outcomes        = {}
-ENT.outcomes[0]     = "You do some average experiments." .. "\nMoney +" .. ENT.outcomePay[0] .. "\nEnergy -" .. ENT.energyRequired
-ENT.outcomes[1]     = "You test a scientific theory." .. "\nMoney +" .. ENT.outcomePay[1] .. "\nEnergy -" .. ENT.energyRequired
-ENT.outcomes[2]     = "You make a breakthrough in your research." .. "\nMoney +" .. ENT.outcomePay[2] .. "\nEnergy -" .. ENT.energyRequired
+ENT.outcomes[0]     = "You do some average experiments." .. "\nMoney + " .. ENT.wage * 3 .. "\nEnergy - " .. ENT.energyRequired
+ENT.outcomes[1]     = "You test a scientific theory." .. "\nMoney + " .. ENT.wage * 3 + ENT.outcomeBonus[1] .. "\nEnergy - " .. ENT.energyRequired
+ENT.outcomes[2]     = "You make a breakthrough in your research." .. "\nMoney + " .. ENT.wage * 3 + ENT.outcomeBonus[2] .. "\nEnergy - " .. ENT.energyRequired
 
 // Text that will be passed to the client derma
-local employerText = "Want to do an experiment? \n\n Requires 15 Intelligence"
+local employerText = "Want to do an experiment? \nRequires 15 Intelligence\nWage: $80/hour"
 local acceptText = "Get to work"
 local titleText = "Lab Scientist"
 

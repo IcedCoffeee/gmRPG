@@ -16,18 +16,20 @@ ENT.Spawnable       = true
 ENT.energyRequired  = 4
 ENT.intRequired     = 5
 
-ENT.outcomePay      = {}
-ENT.outcomePay[0]   = 12
-ENT.outcomePay[1]   = 15
-ENT.outcomePay[2]   = 20
+ENT.wage            = 12
+
+ENT.outcomeBonus    = {}
+ENT.outcomeBonus[0] = 0
+ENT.outcomeBonus[1] = 3
+ENT.outcomeBonus[2] = 8
 
 ENT.outcomes        = {}
-ENT.outcomes[0]     = "An average shift feeding obese customers." .. "\nMoney +" .. ENT.outcomePay[0] .. "\nEnergy -" .. ENT.energyRequired
-ENT.outcomes[1]     = "You flip patties like there's no tomorrrow." .. "\nMoney +" .. ENT.outcomePay[1] .. "\nEnergy -" .. ENT.energyRequired
-ENT.outcomes[2]     = "The boss is impressed with your hard work." .. "\nMoney +" .. ENT.outcomePay[2] .. "\nEnergy -" .. ENT.energyRequired
+ENT.outcomes[0]     = "An average shift feeding obese customers." .. "\nMoney + " .. ENT.wage * 3 .. "\nEnergy - " .. ENT.energyRequired
+ENT.outcomes[1]     = "You flip patties like there's no tomorrrow." .. "\nMoney + " .. ENT.wage * 3 + ENT.outcomeBonus[1] .. "\nEnergy - " .. ENT.energyRequired
+ENT.outcomes[2]     = "The boss is impressed with your hard work." .. "\nMoney + " .. ENT.wage * 3 + ENT.outcomeBonus[2] .. "\nEnergy - " .. ENT.energyRequired
 
 // Text that will be passed to the client derma
-local employerText = "Hello, looking for work? \n\n"
+local employerText = "Hello, looking for work? \n\nWage: $12/hour"
 local acceptText = "Work"
 local titleText = "Fastfood Employer"
 

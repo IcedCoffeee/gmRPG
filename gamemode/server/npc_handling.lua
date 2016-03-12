@@ -29,7 +29,7 @@ net.Receive("requestEmployment", function(len, ply)
         ply:ScreenFade(SCREENFADE.OUT, Color(0,0,0), 1, 1 )
         timer.Simple(1, function()
         ply:UnLock()
-        ply:setMoney(npcEnt.outcomePay[selectedOutcome])
+        ply:setMoney(npcEnt.wage * 3 + npcEnt.outcomeBonus[selectedOutcome])
         ply:setEnergy(-npcEnt.energyRequired)
 
         net.Start("rpgEmploymentResultDermaStart")

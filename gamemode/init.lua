@@ -22,13 +22,11 @@ util.AddNetworkString("rpgUndrunkify")
 util.AddNetworkString("rpgUpdateInventory")
 
 function GM:PlayerInitialSpawn(ply)
-    // Set the player stats etc. to set NW Strings
     ply:setMoney(0)
     ply:setEnergy(0)
     ply:setStrength(0)
     ply:setIntelligence(0)
-    ply:resetInventory()
-
+    ply:updateInventory()
 end
 
 function GM:PlayerSpray(ply)
