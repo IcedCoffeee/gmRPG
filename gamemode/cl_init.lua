@@ -65,33 +65,13 @@ if !inventoryVisible then
 end
 
 function rpgZoomIn()
-	zoom = zoom - 1
-	camPos = camPos + 0.2
-	if zoom > 400 then
-		zoom = 400
-	elseif zoom < 100 then
-		zoom = 100
-	end
-	if camPos < -80 then
-		camPos = -80
-	elseif camPos > -20 then
-		camPos = -20
-	end
+	zoom = math.Clamp(zoom - 1, 100, 400)
+	camPos = math.Clamp(camPos + 0.2, -80, -20)
 end
 
 function rpgZoomOut()
-	zoom = zoom + 1
-	camPos = camPos - 0.2
-	if zoom > 400 then
-		zoom = 400
-	elseif zoom < 100 then
-		zoom = 100
-	end
-	if camPos < -80 then
-		camPos = -80
-	elseif camPos > -20 then
-		camPos = -20
-	end
+	zoom = math.Clamp(zoom + 1, 100, 400)
+	camPos = math.Clamp(camPos - 0.2, -80, -20)
 end
 
 function rpgZoomReset()
