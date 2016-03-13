@@ -3,10 +3,11 @@ gmRPG = gmRPG or {}
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 AddCSLuaFile("client/hud.lua")
-AddCSLuaFile("client/derma.lua")
+AddCSLuaFile("client/derma/derma.lua")
 AddCSLuaFile("client/pp.lua")
 AddCSLuaFile("client/merchants.lua")
 AddCSLuaFile("shared/items.lua")
+AddCSLuaFile("client/derma/dialogue.lua")
 
 include("shared.lua")
 include("server/pdata.lua")
@@ -22,10 +23,7 @@ util.AddNetworkString("rpgUndrunkify")
 util.AddNetworkString("rpgUpdateInventory")
 
 function GM:PlayerInitialSpawn(ply)
-    ply:setMoney(0)
-    ply:setEnergy(0)
-    ply:setStrength(0)
-    ply:setIntelligence(0)
+	ply:sendStats()
     ply:updateInventory()
 end
 

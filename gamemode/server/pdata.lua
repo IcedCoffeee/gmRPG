@@ -19,8 +19,8 @@ end
 
 function meta:setEnergy(energy)
     self:SetPData("gmrpg_energy", self:GetPData("gmrpg_energy", 0) + energy)
-    if tonumber(self:GetPData("gmrpg_energy", 0)) > math.floor(tonumber(self:getStrength())) then
-        self:SetPData("gmrpg_energy", math.floor(tonumber(self:getStrength())))
+    if tonumber(self:GetPData("gmrpg_energy", 0)) > 10 then
+        self:SetPData("gmrpg_energy", 10)
     end
     self:sendStats()
 end
@@ -128,10 +128,18 @@ end)
             Employment PData
 /////////////////////////////////////////*/
 
-function meta:getEmployment()
-    return self:GetPData("gmrpg_employment", "Unemployed")
+function meta:getEmployment(employer)
+    return self:GetPData("gmrpg_employment_" .. employer, 0)
 end
 
-function meta:setEmployment(new)
-    self:SetPData("gmrpg_employment", new)
+function meta:setEmployment(employer, new)
+    self:SetPData("gmrpg_employment_" .. employer, self:GetPData("gmrpg_employment_" .. employer, 0) + new)
+end
+
+function meta:getExperience(employer)
+    return self:GetPData("gmrpg_employment_exp_" .. employer, 0)
+end
+
+function meta:setExperience(employer, new)
+    self:SetPData("gmrpg_employment_exp_" .. employer, self:GetPData("gmrpg_employment_exp_" .. employer, 0) + new)
 end

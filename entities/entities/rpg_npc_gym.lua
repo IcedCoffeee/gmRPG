@@ -12,8 +12,23 @@ ENT.Category        = "gmRPG"
 
 ENT.Spawnable       = true
 
-local employerText = "Wanna muscle up? \n\n Money - 50 \n Energy - 5"
-local acceptText = "Work out"
+ENT.energyRequired               = 2
+
+ENT.cost                         = 50
+
+ENT.outcomeStrength          = {}
+ENT.outcomeStrength[0]       = 1
+ENT.outcomeStrength[1]       = 2
+ENT.outcomeStrength[2]       = 3
+
+ENT.outcomes                 = {}
+ENT.outcomes[0]              = "You lift weights." .. "\nMoney - " .. ENT.cost .. "\nEnergy - " .. ENT.energyRequired .. "\nStrength + " .. ENT.outcomeStrength[0]
+ENT.outcomes[1]              = "You can feel the burn." .. "\nMoney - " .. ENT.cost .. "\nEnergy - " .. ENT.energyRequired.. "\nStrength + " .. ENT.outcomeStrength[1]
+ENT.outcomes[2]              = "You are put through vigarous training." .. "\nMoney - " .. ENT.cost .. "\nEnergy - " .. ENT.energyRequired.. "\nStrength + " .. ENT.outcomeStrength[2]
+
+ENT.teacherText              = "Wanna muscle up? \n\n Money - " .. ENT.cost .. " \n Energy - " .. ENT.energyRequired
+ENT.acceptText               = "Work out"
+ENT.titleText                = "Gym Owner"
 
 if SERVER then
     function ENT:Initialize( )
@@ -31,10 +46,15 @@ if SERVER then
 
     	if !Activator.cantUse and Activator:IsPlayer() then
     		Activator.cantUse = true
-    		net.Start( "rpgGymDermaStart" )
-                net.WriteString(employerText)
-                net.WriteString(acceptText)
+            net.Start("rpgDialogueDermaStart")
+                net.WriteString(self.titleText)
+                net.WriteString(self.teacherText)
+                net.WriteString(self.acceptText)
+                net.WriteString("No thanks")
+                net.WriteString("net.Start('requestGym') net.WriteEntity(npcEnt) net.SendToServer()")
+                net.WriteString("close")
                 net.WriteEntity(self)
+            net.Send(Activator)
     		net.Send( Activator )
     		timer.Simple(1, function()
     			Activator.cantUse = false

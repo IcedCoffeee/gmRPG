@@ -30,10 +30,10 @@ if SERVER then
 
     	if !Activator.cantUse and Activator:IsPlayer() then
     		Activator.cantUse = true
-    		net.Start( "rpgBarDermaStart" )
+    		net.Start("rpgBarDermaStart")
                 net.WriteString(merchantText)
                 net.WriteEntity(self)
-    		net.Send( Activator )
+    		net.Send(Activator)
     		timer.Simple(1, function()
     			Activator.cantUse = false
     		end)
