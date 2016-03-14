@@ -1,14 +1,3 @@
-function gmRPG.addItem(itemid, name, price, merchant, model, itemfunc)
-	local newitem = {}
-	newitem.id = itemid
-	newitem.name = name
-	newitem.merchant = merchant
-	newitem.model = model
-	newitem.price = price
-	table.insert(gmRPG.items, newitem)
-
-end
-
 function BarMenu()
 	local barText = net.ReadString()
 	local npcEnt  = net.ReadEntity()
