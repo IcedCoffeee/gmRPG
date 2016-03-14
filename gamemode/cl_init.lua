@@ -4,8 +4,9 @@ include("shared.lua")
 include("client/hud.lua")
 include("client/derma/derma.lua")
 include("client/derma/dialogue.lua")
-include("client/pp.lua")
 include("client/derma/merchants.lua")
+include("client/derma/inventory.lua")
+include("client/pp.lua")
 include("shared/items.lua")
 
 

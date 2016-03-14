@@ -255,3 +255,15 @@ function gmRPG.items:largecola()
     }
     return itemdata
 end
+
+function gmRPG.items:id()
+    local function useID(ply)
+    end
+    local itemdata = {
+        name = "ID",
+        price = 150,
+        merchant = "police",
+        model = "models/props_c17/paper01.mdl",
+    }
+    return itemdata
+end
