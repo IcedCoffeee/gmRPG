@@ -8,6 +8,7 @@ AddCSLuaFile("client/derma/dialogue.lua")
 AddCSLuaFile("client/derma/merchants.lua")
 AddCSLuaFile("client/derma/inventory.lua")
 AddCSLuaFile("client/pp.lua")
+AddCSLuaFile("client/mouse.lua")
 AddCSLuaFile("shared/items.lua")
 
 include("shared.lua")

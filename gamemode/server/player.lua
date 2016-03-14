@@ -1,3 +1,5 @@
+util.AddNetworkString("requestInteract")
+
 function GM:PlayerSpawn(ply)
 	ply:StripWeapons()
 	ply:SetHealth(100)
@@ -22,3 +24,9 @@ function GM:PlayerDeath(victim, inflictor, attacker)
 	net.Start("rpgUndrunkify")
 	net.Send(victim)
 end
+
+net.Receive("requestInteract", function(len, ply)
+	local ent = net.ReadEntity()
+	if ply:GetPos():Distance(ent:GetPos()) > 150 then return false end
+	ent:Use(ply, ply, 1, 1)
+end)

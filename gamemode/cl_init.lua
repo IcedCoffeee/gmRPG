@@ -7,6 +7,7 @@ include("client/derma/dialogue.lua")
 include("client/derma/merchants.lua")
 include("client/derma/inventory.lua")
 include("client/pp.lua")
+include("client/mouse.lua")
 include("shared/items.lua")
 
 
