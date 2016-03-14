@@ -100,7 +100,7 @@ function gmRPG.items:energydrink()
     local itemdata = {
         name = "Energy Drink",
         price = 5,
-        merchant = "cafe",
+        merchant = "vending",
         model = "models/props_junk/PopCan01a.mdl",
         itemfunc = useEnergyDrink
     }
