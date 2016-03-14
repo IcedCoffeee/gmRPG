@@ -1,3 +1,7 @@
+util.AddNetworkString("requestPurchase")
+util.AddNetworkString("requestUse")
+util.AddNetworkString("rpgMerchantDermaStart")
+
 net.Receive("requestUse", function(len, ply)
     if !IsValid(ply) then return false end
     local item = net.ReadString()

@@ -3,7 +3,7 @@ AddCSLuaFile()
 ENT.Base            = "rpg_npc_merchant_base"
 ENT.Type            = "ai"
 
-ENT.PrintName       = "NPC Bar Tender"
+ENT.PrintName       = "Vending Machine"
 ENT.Author          = "Almighty Laxz"
 ENT.Contact         = ""
 ENT.Purpose         = ""
@@ -12,20 +12,13 @@ ENT.Category        = "gmRPG"
 
 ENT.Spawnable       = true
 
-local titleText    = "Bar Tender"
 local merchantText = "Hello, can I help you?"
-// for items
-local merchantid   = "bar"
 
 if SERVER then
     function ENT:Initialize( )
-    	self:SetModel( "models/alyx.mdl" )
-    	self:SetHullType( HULL_HUMAN )
-    	self:SetHullSizeNormal( )
-    	self:SetNPCState( NPC_STATE_SCRIPT )
-    	self:SetSolid(  SOLID_BBOX )
-    	self:CapabilitiesAdd( CAP_ANIMATEDFACE, CAP_TURN_HEAD )
-    	self:SetUseType( SIMPLE_USE )
+    	self:SetModel("models/props_interiors/VendingMachineSoda01a.mdl")
+    	self:SetSolid(SOLID_BBOX)
+    	self:SetUseType(SIMPLE_USE)
     	self:DropToFloor()
     end
 
@@ -33,10 +26,8 @@ if SERVER then
 
     	if !Activator.cantUse and Activator:IsPlayer() then
     		Activator.cantUse = true
-    		net.Start("rpgMerchantDermaStart")
-                net.WriteString(titleText)
+    		net.Start("rpgBarDermaStart")
                 net.WriteString(merchantText)
-                net.WriteString(merchantid )
                 net.WriteEntity(self)
     		net.Send(Activator)
     		timer.Simple(1, function()

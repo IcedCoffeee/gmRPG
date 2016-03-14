@@ -12,7 +12,10 @@ ENT.Category        = "gmRPG"
 
 ENT.Spawnable       = true
 
+local titleText    = "Cafe Worker"
 local merchantText = "Hello, can I help you?"
+// for items
+local merchantid   = "cafe"
 
 if SERVER then
     function ENT:Initialize( )
@@ -30,9 +33,12 @@ if SERVER then
 
     	if !Activator.cantUse and Activator:IsPlayer() then
     		Activator.cantUse = true
-    		net.Start( "rpgCafeDermaStart" )
+            net.Start("rpgMerchantDermaStart")
+                net.WriteString(titleText)
                 net.WriteString(merchantText)
-    		net.Send( Activator )
+                net.WriteString(merchantid )
+                net.WriteEntity(self)
+            net.Send(Activator)
     		timer.Simple(1, function()
     			Activator.cantUse = false
     		end)
