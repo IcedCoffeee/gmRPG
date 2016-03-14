@@ -296,7 +296,6 @@ function updateInventory()
 	invlist:Clear()
 
 	for _,v in pairs(rpgInventory) do
-		print(v)
 		local model   =   gmRPG.items[v]().model
 		local text    =   gmRPG.items[v]().name
 		local tooltip =   "$" .. gmRPG.items[v]().price
