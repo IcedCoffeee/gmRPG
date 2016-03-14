@@ -80,3 +80,29 @@ function rpgZoomReset()
 	zoom = 300
 	camPos = -60
 end
+
+/*/////////////////////////////////////////
+            Building Roof Fading
+/////////////////////////////////////////*/
+
+roofTable = {}
+
+hook.Add("InitPostEntity", "rpgAddRoof", function()
+	for k,v in pairs(ents.GetAll()) do
+		if v:GetClass() == "func_brush" then
+			v:SetRenderMode(RENDERMODE_TRANSALPHA)
+			table.insert(roofTable, v)
+		end
+	end
+end)
+
+hook.Add("Think", "rpgRoofAlpha", function()
+	for k,v in pairs(roofTable) do
+		local trans = 0
+		if LocalPlayer():GetPos():Distance(v:GetPos()) < 700 then trans = 120 end
+		local newAlpha = math.Clamp(LocalPlayer():GetPos():Distance(v:GetPos()) / 2 - trans, 0, 255)
+		// gets rid of low alpha roof
+		if newAlpha < 50 then newAlpha = 0 end
+		v:SetColor(Color(255, 255, 255, newAlpha))
+	end
+end)
