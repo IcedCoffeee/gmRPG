@@ -13,6 +13,7 @@ util.AddNetworkString("requestWork")
 util.AddNetworkString("requestPromotion")
 util.AddNetworkString("requestGym")
 util.AddNetworkString("requestSchool")
+util.AddNetworkString("requestSlots")
 
 util.AddNetworkString("rpgEmploymentResultDermaStart")
 
@@ -165,6 +166,39 @@ net.Receive("requestSchool", function(len, ply)
             ply:ChatPrint( "You don't have enough energy for that!" )
         else
             ply:ChatPrint( "You don't have enough money for that!" )
+        end
+    end
+end)
+
+net.Receive("requestSlots", function(len, ply)
+    local npcEnt = net.ReadEntity()
+    if !IsValid(ply) || !IsValid(npcEnt) then return false end
+    if tonumber(ply:getMoney()) > npcEnt.cost then
+        ply:setMoney(-npcEnt.cost)
+        local selectedOutcome = math.random(0, 6)
+        if selectedOutcome == 2 then
+            net.Start("rpgSingleDialogueDermaStart")
+                net.WriteString(npcEnt.title)
+                net.WriteString(npcEnt.winText)
+                net.WriteString("Close")
+                net.WriteEntity(npcEnt)
+            net.Send(ply)
+            ply:setMoney(npcEnt.winAmount)
+        elseif selectedOutcome == 3 then
+            net.Start("rpgSingleDialogueDermaStart")
+                net.WriteString(npcEnt.title)
+                net.WriteString(npcEnt.jackpotText)
+                net.WriteString("Close")
+                net.WriteEntity(npcEnt)
+            net.Send(ply)
+            ply:setMoney(npcEnt.jackpot)
+        else
+            net.Start("rpgSingleDialogueDermaStart")
+                net.WriteString(npcEnt.titleText)
+                net.WriteString(npcEnt.loseText)
+                net.WriteString("Close")
+                net.WriteEntity(npcEnt)
+            net.Send(ply)
         end
     end
 end)

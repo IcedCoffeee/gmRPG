@@ -32,7 +32,7 @@ if SERVER then
             net.Start("rpgMerchantDermaStart")
                 net.WriteString(titleText)
                 net.WriteString(merchantText)
-                net.WriteString(merchantid )
+                net.WriteString(merchantid)
                 net.WriteEntity(self)
             net.Send(Activator)
     		timer.Simple(1, function()
