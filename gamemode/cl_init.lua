@@ -87,9 +87,8 @@ end
             Building Roof Fading
 /////////////////////////////////////////*/
 
-roofTable = {}
-
 hook.Add("InitPostEntity", "rpgAddRoof", function()
+	roofTable = {}
 	for k,v in pairs(ents.GetAll()) do
 		if v:GetClass() == "func_brush" then
 			v:SetRenderMode(RENDERMODE_TRANSALPHA)
@@ -99,7 +98,7 @@ hook.Add("InitPostEntity", "rpgAddRoof", function()
 end)
 
 hook.Add("Think", "rpgRoofAlpha", function()
-	for k,v in pairs(roofTable) do
+	for _,v in pairs(roofTable) do
 		local trans = 0
 		if LocalPlayer():GetPos():Distance(v:GetPos()) < 700 then trans = 120 end
 		local newAlpha = math.Clamp(LocalPlayer():GetPos():Distance(v:GetPos()) / 2 - trans, 0, 255)
