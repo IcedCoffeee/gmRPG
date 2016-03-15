@@ -8,9 +8,9 @@
 - Player stats (strength, intelligence, money, energy)
 - Inventory system
 - Gambling
+- ATMs
 
 ## Planned Features:
 - NPC Missions
-- ATMs
 - Item Storage
 - Gun fights
