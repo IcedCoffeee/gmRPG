@@ -24,6 +24,7 @@ util.AddNetworkString("rpgUpdateInventory")
 function GM:PlayerInitialSpawn(ply)
 	ply:sendStats()
 	ply:updateInventory()
+	ply:updateBankMoney()
 end
 
 function GM:PlayerSpray(ply)

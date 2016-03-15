@@ -7,6 +7,7 @@ util.AddNetworkString("rpgCivilianDermaStart")
 util.AddNetworkString("rpgDrugDermaStart")
 util.AddNetworkString("rpgDialogueDermaStart")
 util.AddNetworkString("rpgSingleDialogueDermaStart")
+util.AddNetworkString("rpgATMDermaStart")
 
 util.AddNetworkString("requestEmployment")
 util.AddNetworkString("requestWork")
@@ -14,6 +15,8 @@ util.AddNetworkString("requestPromotion")
 util.AddNetworkString("requestGym")
 util.AddNetworkString("requestSchool")
 util.AddNetworkString("requestSlots")
+util.AddNetworkString("requestDeposit")
+util.AddNetworkString("requestWithdraw")
 
 util.AddNetworkString("rpgEmploymentResultDermaStart")
 
@@ -175,6 +178,7 @@ net.Receive("requestSlots", function(len, ply)
     if !IsValid(ply) || !IsValid(npcEnt) then return false end
     if tonumber(ply:getMoney()) > npcEnt.cost then
         ply:setMoney(-npcEnt.cost)
+        ply:EmitSound("ambient/office/coinslot1.wav")
         local selectedOutcome = math.random(0, 6)
         if selectedOutcome == 2 then
             net.Start("rpgSingleDialogueDermaStart")
@@ -200,5 +204,30 @@ net.Receive("requestSlots", function(len, ply)
                 net.WriteEntity(npcEnt)
             net.Send(ply)
         end
+    end
+end)
+
+net.Receive("requestDeposit", function(len, ply)
+    local amount = math.Clamp(net.ReadUInt(32), 0, 900000000)
+    local npcEnt = net.ReadEntity()
+    if !IsValid(ply) || !IsValid(npcEnt) then return false end
+    if tonumber(ply:getMoney()) < amount then ply:ChatPrint("You can't deposit what you don't have!") return false end
+    ply:setMoney(-amount)
+    ply:setBankMoney(amount)
+end)
+
+net.Receive("requestWithdraw", function(len, ply)
+    local amount = math.Clamp(net.ReadUInt(32), 0, 900000000)
+    local npcEnt = net.ReadEntity()
+    if !IsValid(ply) || !IsValid(npcEnt) then return false end
+    if tonumber(ply:getBankMoney()) < amount then ply:ChatPrint("You can't withdraw what you don't have!") return false end
+    ply:setMoney(amount)
+    ply:setBankMoney(-amount)
+end)
+
+timer.Create("rpgBankInterest", 60, 0, function()
+    for k,v in pairs(player.GetAll()) do
+        local new = v:getBankMoney() * 0.015
+        v:setBankMoney(math.floor(new))
     end
 end)

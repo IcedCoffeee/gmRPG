@@ -284,5 +284,106 @@ function displayControls()
 			displayCharacterMenu()
 		end
 	end
-
 end
+
+bankMoney = ""
+
+net.Receive("rpgSendBankMoney", function()
+	bankMoney = net.ReadString()
+end)
+
+net.Receive("rpgATMDermaStart", function()
+	local npcEnt = net.ReadEntity()
+
+	if !IsValid(npcEnt) then return false end
+
+	net.Start("rpgRequestBankMoney")
+	net.SendToServer()
+
+	local frame = vgui.Create( "DFrame")
+	frame:SetPos( 5, 5 )
+	frame:SetSize( 400, 300 )
+	frame:SetTitle("ATM")
+	frame:SetVisible( true )
+	frame:SetDraggable( true )
+	frame:ShowCloseButton( false )
+	frame.Paint = function( self, w, h )
+		draw.RoundedBox( 0, 0, 0, w, h, Color( 0, 0, 0, 200 ) )
+	end
+	frame:MakePopup()
+	frame:Center()
+
+	local blabel = vgui.Create("DLabel", frame)
+	blabel:SetPos(10, 10)
+	blabel:SetText("Balance: $" .. bankMoney)
+	blabel:SetSize(300, 80)
+	blabel:SetWrap(true)
+	blabel.Think = function()
+		blabel:SetText("Balance: $" .. bankMoney)
+	end
+
+	local dlabel = vgui.Create("DLabel", frame)
+	dlabel:SetPos(10, 80)
+	dlabel:SetText("Deposit")
+	dlabel:SetSize(80, 20)
+	dlabel:SetContentAlignment(5)
+
+	// :^)
+	local dwang = vgui.Create("DNumberWang", frame)
+	dwang:SetPos(10, 110)
+	dwang:SetSize(80, 20)
+	dwang:SetMin(0)
+
+	local dbutton = vgui.Create("DButton", frame)
+	dbutton:SetPos(10, 140)
+	dbutton:SetSize(80, 20)
+	dbutton:SetText("Deposit")
+	dbutton.DoClick = function()
+		net.Start("requestDeposit")
+			net.WriteUInt(dwang:GetInt(), 32)
+			net.WriteEntity(npcEnt)
+		net.SendToServer()
+		net.Start("rpgRequestBankMoney")
+		net.SendToServer()
+	end
+
+	local wlabel = vgui.Create("DLabel", frame)
+	wlabel:SetPos(110, 80)
+	wlabel:SetText("Withdraw")
+	wlabel:SetSize(80, 20)
+	wlabel:SetContentAlignment(5)
+
+	// :^)
+	local wwang = vgui.Create("DNumberWang", frame)
+	wwang:SetPos(110, 110)
+	wwang:SetSize(80, 20)
+	wwang:SetMin(0)
+
+	local wbutton = vgui.Create("DButton", frame)
+	wbutton:SetPos(110, 140)
+	wbutton:SetSize(80, 20)
+	wbutton:SetText("Withdraw")
+	wbutton.DoClick = function()
+		net.Start("requestWithdraw")
+			net.WriteUInt(wwang:GetInt(), 32)
+			net.WriteEntity(npcEnt)
+		net.SendToServer()
+		net.Start("rpgRequestBankMoney")
+		net.SendToServer()
+	end
+
+	local ilabel = vgui.Create("DLabel", frame)
+	ilabel:SetPos(10, 180)
+	ilabel:SetText("Interest 1.5%/minute")
+	ilabel:SetSize(180, 20)
+	ilabel:SetContentAlignment(5)
+
+
+	local closeButton = vgui.Create( "DButton", frame )
+	closeButton:SetPos( 10, 260 )
+	closeButton:SetText("Close")
+	closeButton:SetSize( 250, 30 )
+	closeButton.DoClick = function()
+		frame:Close()
+	end
+end)

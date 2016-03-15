@@ -143,3 +143,29 @@ end
 function meta:setExperience(employer, new)
     self:SetPData("gmrpg_employment_exp_" .. employer, self:GetPData("gmrpg_employment_exp_" .. employer, 0) + new)
 end
+
+/*/////////////////////////////////////////
+                ATM PData
+/////////////////////////////////////////*/
+util.AddNetworkString("rpgSendBankMoney")
+util.AddNetworkString("rpgRequestBankMoney")
+
+function meta:getBankMoney()
+    return self:GetPData("gmrpg_bankmoney", 0)
+end
+
+function meta:setBankMoney(new)
+    self:SetPData("gmrpg_bankmoney", self:GetPData("gmrpg_bankmoney", 0) + new)
+end
+
+function meta:updateBankMoney()
+    net.Start("rpgSendBankMoney")
+        net.WriteString(tostring(self:getBankMoney()))
+    net.Send(self)
+end
+
+net.Receive("rpgRequestBankMoney", function(len, ply)
+    net.Start("rpgSendBankMoney")
+        net.WriteString(tostring(ply:getBankMoney()))
+    net.Send(ply)
+end)
