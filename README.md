@@ -7,10 +7,10 @@
 - Top-Down View
 - Player stats (strength, intelligence, money, energy)
 - Inventory system
+- Gambling
 
 ## Planned Features:
 - NPC Missions
-- Gambling
 - ATMs
 - Item Storage
 - Gun fights
