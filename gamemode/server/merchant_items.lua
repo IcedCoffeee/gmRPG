@@ -32,15 +32,6 @@ net.Receive("requestPurchase", function(len, ply)
     end
 end)
 
-net.Receive("requestInspect", function(len, ply)
-    if !IsValid(ply) then return false end
-    local item = net.ReadString()
-    local requestedItem = gmRPG.items[item]()
-    net.Start("rpgInspectDermaStart")
-        net.WriteString(item)
-    net.Send(ply)
-end)
-
 net.Receive("requestDestruction", function(len, ply)
     if !IsValid(ply) then return false end
     local item = net.ReadString()
