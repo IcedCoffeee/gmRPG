@@ -99,6 +99,7 @@ end)
 hook.Add("Think", "rpgRoofAlpha", function()
 	for _,v in pairs(roofTable) do
 		local trans = 0
+		v:SetRenderMode(RENDERMODE_TRANSALPHA)
 		if LocalPlayer():GetPos():Distance(v:GetPos()) < 700 then trans = 120 end
 		local newAlpha = math.Clamp(LocalPlayer():GetPos():Distance(v:GetPos()) / 2 - trans, 0, 255)
 		// gets rid of low alpha roof

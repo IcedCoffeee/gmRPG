@@ -17,6 +17,7 @@ util.AddNetworkString("requestSchool")
 util.AddNetworkString("requestSlots")
 util.AddNetworkString("requestDeposit")
 util.AddNetworkString("requestWithdraw")
+util.AddNetworkString("requestMission")
 
 util.AddNetworkString("rpgEmploymentResultDermaStart")
 
@@ -182,7 +183,7 @@ net.Receive("requestSlots", function(len, ply)
         local selectedOutcome = math.random(0, 6)
         if selectedOutcome == 2 then
             net.Start("rpgSingleDialogueDermaStart")
-                net.WriteString(npcEnt.title)
+                net.WriteString(npcEnt.titleText)
                 net.WriteString(npcEnt.winText)
                 net.WriteString("Close")
                 net.WriteEntity(npcEnt)
@@ -190,7 +191,7 @@ net.Receive("requestSlots", function(len, ply)
             ply:setMoney(npcEnt.winAmount)
         elseif selectedOutcome == 3 then
             net.Start("rpgSingleDialogueDermaStart")
-                net.WriteString(npcEnt.title)
+                net.WriteString(npcEnt.titleText)
                 net.WriteString(npcEnt.jackpotText)
                 net.WriteString("Close")
                 net.WriteEntity(npcEnt)
@@ -223,6 +224,11 @@ net.Receive("requestWithdraw", function(len, ply)
     if tonumber(ply:getBankMoney()) < amount then ply:ChatPrint("You can't withdraw what you don't have!") return false end
     ply:setMoney(amount)
     ply:setBankMoney(-amount)
+end)
+
+net.Receive("requestMisison", function(len, ply)
+    local npcEnt = net.ReadEntity()
+    if !IsValid(ply) || !IsValid(npcEnt) then return false end
 end)
 
 timer.Create("rpgBankInterest", 60, 0, function()
