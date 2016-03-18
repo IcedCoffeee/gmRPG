@@ -6,7 +6,7 @@ local meta = FindMetaTable("Player")
 
 function meta:setMoney(money)
     self:SetPData("gmrpg_money", self:GetPData("gmrpg_money", 0) + money)
-    self:SetNWString("gmrpg_money", self:GetPData("gmrpg_money", 0))
+    self:sendStats()
 end
 
 function meta:getMoney()
@@ -19,10 +19,10 @@ end
 
 function meta:setEnergy(energy)
     self:SetPData("gmrpg_energy", self:GetPData("gmrpg_energy", 0) + energy)
-    if tonumber(self:GetPData("gmrpg_energy", 0)) > math.floor(tonumber(self:getStrength())) then
-        self:SetPData("gmrpg_energy", math.floor(tonumber(self:getStrength())))
+    if tonumber(self:GetPData("gmrpg_energy", 0)) > 10 then
+        self:SetPData("gmrpg_energy", 10)
     end
-    self:SetNWString("gmrpg_energy", self:GetPData("gmrpg_energy", 0))
+    self:sendStats()
 end
 
 function meta:getEnergy()
@@ -34,9 +34,11 @@ end
             Stats PData Functions
 /////////////////////////////////////////*/
 
+util.AddNetworkString("rpgSendStats")
+
 function meta:setStrength(strength)
     self:SetPData("gmrpg_strength", self:GetPData("gmrpg_strength", 5) + strength)
-    self:SetNWString("gmrpg_strength", self:GetPData("gmrpg_strength", 5))
+    self:sendStats()
 end
 
 function meta:getStrength()
@@ -45,7 +47,7 @@ end
 
 function meta:setIntelligence(intelligence)
     self:SetPData("gmrpg_intelligence", self:GetPData("gmrpg_intelligence", 5) + intelligence)
-    self:SetNWString("gmrpg_intelligence", self:GetPData("gmrpg_intelligence", 5))
+    self:sendStats()
 end
 
 function meta:getIntelligence()
@@ -55,13 +57,21 @@ end
 function meta:resetStats()
     self:SetPData("gmrpg_strength", 5)
     self:SetPData("gmrpg_intelligence", 5)
-    self:SetNWString("gmrpg_strength", self:GetPData("gmrpg_strength", 5))
-    self:SetNWString("gmrpg_intelligence", self:GetPData("gmrpg_intelligence", 5))
+end
+
+function meta:sendStats()
+    net.Start("rpgSendStats")
+        net.WriteString(self:getMoney())
+        net.WriteString(self:getEnergy())
+        net.WriteString(self:getStrength())
+        net.WriteString(self:getIntelligence())
+    net.Send(self)
 end
 
 /*/////////////////////////////////////////
         Inventory PData Functions
 /////////////////////////////////////////*/
+
 util.AddNetworkString("rpgRequestInventory")
 util.AddNetworkString("rpgSendInventory")
 
@@ -111,5 +121,51 @@ end
 net.Receive("rpgRequestInventory", function(len, ply)
     net.Start("rpgSendInventory")
         net.WriteString(util.TableToJSON(ply:getInventory()))
+    net.Send(ply)
+end)
+
+/*/////////////////////////////////////////
+            Employment PData
+/////////////////////////////////////////*/
+
+function meta:getEmployment(employer)
+    return self:GetPData("gmrpg_employment_" .. employer, 0)
+end
+
+function meta:setEmployment(employer, new)
+    self:SetPData("gmrpg_employment_" .. employer, self:GetPData("gmrpg_employment_" .. employer, 0) + new)
+end
+
+function meta:getExperience(employer)
+    return self:GetPData("gmrpg_employment_exp_" .. employer, 0)
+end
+
+function meta:setExperience(employer, new)
+    self:SetPData("gmrpg_employment_exp_" .. employer, self:GetPData("gmrpg_employment_exp_" .. employer, 0) + new)
+end
+
+/*/////////////////////////////////////////
+                ATM PData
+/////////////////////////////////////////*/
+util.AddNetworkString("rpgSendBankMoney")
+util.AddNetworkString("rpgRequestBankMoney")
+
+function meta:getBankMoney()
+    return self:GetPData("gmrpg_bankmoney", 0)
+end
+
+function meta:setBankMoney(new)
+    self:SetPData("gmrpg_bankmoney", self:GetPData("gmrpg_bankmoney", 0) + new)
+end
+
+function meta:updateBankMoney()
+    net.Start("rpgSendBankMoney")
+        net.WriteString(tostring(self:getBankMoney()))
+    net.Send(self)
+end
+
+net.Receive("rpgRequestBankMoney", function(len, ply)
+    net.Start("rpgSendBankMoney")
+        net.WriteString(tostring(ply:getBankMoney()))
     net.Send(ply)
 end)

@@ -100,7 +100,7 @@ function gmRPG.items:energydrink()
     local itemdata = {
         name = "Energy Drink",
         price = 5,
-        merchant = "cafe",
+        merchant = "vending",
         model = "models/props_junk/PopCan01a.mdl",
         itemfunc = useEnergyDrink
     }
@@ -110,7 +110,7 @@ end
 function gmRPG.items:noodles()
     local function useNoodles(ply)
     	ply:ChatPrint("You eat Noodles")
-    	ply:EmitSound("npc/barnacle/barnacle_gulp1.wav")
+    	ply:EmitSound("eating_and_drinking/eating.wav")
     	if ply:Health() < 100 then ply:SetHealth(ply:Health() + 5) end
     end
     local itemdata = {
@@ -140,6 +140,130 @@ function gmRPG.items:strongcoffee()
         merchant = "cafe",
         model = "models/props_junk/garbage_coffeemug001a.mdl",
         itemfunc = useStrongCoffee
+    }
+    return itemdata
+end
+
+function gmRPG.items:fries()
+    local function useFries(ply)
+        ply:ChatPrint("You eat Fries")
+        ply:EmitSound("eating_and_drinking/eating.wav")
+        if ply:Health() < 100 then ply:SetHealth(ply:Health() + 5) end
+    end
+    local itemdata = {
+        name = "Fries",
+        price = 2,
+        merchant = "fastfood",
+        model = "models/foodnhouseholditems/mcdfrenchfries.mdl",
+        itemfunc = useFries
+    }
+    return itemdata
+end
+
+function gmRPG.items:chickenwing()
+    local function useChickenWing(ply)
+        ply:ChatPrint("You eat Chicken Wing")
+        ply:EmitSound("eating_and_drinking/eating.wav")
+        if ply:Health() < 100 then ply:SetHealth(ply:Health() + 5) end
+    end
+    local itemdata = {
+        name = "Chicken Wing",
+        price = 2,
+        merchant = "fastfood",
+        model = "models/foodnhouseholditems/mcdfriedchickenleg.mdl",
+        itemfunc = useChickenWing
+    }
+    return itemdata
+end
+
+function gmRPG.items:cheeseburger()
+    local function useCheeseburger(ply)
+        ply:ChatPrint("You eat Cheeseburger")
+        ply:EmitSound("eating_and_drinking/eating_long.wav")
+        if ply:Health() < 100 then ply:SetHealth(ply:Health() + 5) end
+    end
+    local itemdata = {
+        name = "Cheeseburger",
+        price = 2,
+        merchant = "fastfood",
+        model = "models/foodnhouseholditems/burgersims2.mdl",
+        itemfunc = useCheeseburger
+    }
+    return itemdata
+end
+
+function gmRPG.items:doublecheeseburger()
+    local function useDoubleCheeseburger(ply)
+        ply:ChatPrint("You eat Double Cheeseburger")
+        ply:EmitSound("eating_and_drinking/eating_long.wav")
+        if ply:Health() < 100 then ply:SetHealth(ply:Health() + 10) end
+    end
+    local itemdata = {
+        name = "Double Cheeseburger",
+        price = 4,
+        merchant = "fastfood",
+        model = "models/foodnhouseholditems/mcdburger.mdl",
+        itemfunc = useDoubleCheeseburger
+    }
+    return itemdata
+end
+
+function gmRPG.items:shake()
+    local function useShake(ply)
+        ply:ChatPrint("You drink Shake")
+        ply:EmitSound("eating_and_drinking/straw.wav")
+        if ply:Health() < 100 then ply:SetHealth(ply:Health() + 5) end
+    end
+    local itemdata = {
+        name = "Shake",
+        price = 2,
+        merchant = "fastfood",
+        model = "models/foodnhouseholditems/mcddrink.mdl",
+        itemfunc = useShake
+    }
+    return itemdata
+end
+
+function gmRPG.items:cola()
+    local function useCola(ply)
+        ply:ChatPrint("You drink Cola")
+        ply:EmitSound("eating_and_drinking/soda.wav")
+        if ply:Health() < 100 then ply:SetHealth(ply:Health() + 5) end
+    end
+    local itemdata = {
+        name = "Cola",
+        price = 1,
+        merchant = "vending",
+        model = "models/foodnhouseholditems/cola.mdl",
+        itemfunc = useCola
+    }
+    return itemdata
+end
+
+function gmRPG.items:largecola()
+    local function useLargeCola(ply)
+        ply:ChatPrint("You drink Large Cola")
+        ply:EmitSound("eating_and_drinking/soda.wav")
+        if ply:Health() < 100 then ply:SetHealth(ply:Health() + 10) end
+    end
+    local itemdata = {
+        name = "Large Cola",
+        price = 2,
+        merchant = "vending",
+        model = "models/foodnhouseholditems/colabig.mdl",
+        itemfunc = useLargeCola
+    }
+    return itemdata
+end
+
+function gmRPG.items:id()
+    local function useID(ply)
+    end
+    local itemdata = {
+        name = "ID",
+        price = 150,
+        merchant = "police",
+        model = "models/props_c17/paper01.mdl",
     }
     return itemdata
 end

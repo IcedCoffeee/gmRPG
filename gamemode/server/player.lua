@@ -1,3 +1,5 @@
+util.AddNetworkString("requestInteract")
+
 function GM:PlayerSpawn(ply)
 	ply:StripWeapons()
 	ply:SetHealth(100)

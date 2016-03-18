@@ -2,10 +2,13 @@ gmRPG = gmRPG or {}
 
 include("shared.lua")
 include("client/hud.lua")
-include("client/derma.lua")
+include("client/derma/derma.lua")
+include("client/derma/dialogue.lua")
+include("client/derma/merchants.lua")
+include("client/derma/inventory.lua")
 include("client/pp.lua")
-include("client/merchants.lua")
 include("shared/items.lua")
+
 
 hook.Add("ShouldDrawLocalPlayer", "ShouldDrawPlayer", function(ply)
 		return true
@@ -65,36 +68,42 @@ if !inventoryVisible then
 end
 
 function rpgZoomIn()
-	zoom = zoom - 1
-	camPos = camPos + 0.2
-	if zoom > 400 then
-		zoom = 400
-	elseif zoom < 100 then
-		zoom = 100
-	end
-	if camPos < -80 then
-		camPos = -80
-	elseif camPos > -20 then
-		camPos = -20
-	end
+	zoom = math.Clamp(zoom - 1, 100, 400)
+	camPos = math.Clamp(camPos + 0.2, -80, -20)
 end
 
 function rpgZoomOut()
-	zoom = zoom + 1
-	camPos = camPos - 0.2
-	if zoom > 400 then
-		zoom = 400
-	elseif zoom < 100 then
-		zoom = 100
-	end
-	if camPos < -80 then
-		camPos = -80
-	elseif camPos > -20 then
-		camPos = -20
-	end
+	zoom = math.Clamp(zoom + 1, 100, 400)
+	camPos = math.Clamp(camPos - 0.2, -80, -20)
 end
 
 function rpgZoomReset()
 	zoom = 300
 	camPos = -60
 end
+
+/*/////////////////////////////////////////
+            Building Roof Fading
+/////////////////////////////////////////*/
+
+hook.Add("InitPostEntity", "rpgAddRoof", function()
+	roofTable = {}
+	for k,v in pairs(ents.GetAll()) do
+		if v:GetClass() == "func_brush" then
+			v:SetRenderMode(RENDERMODE_TRANSALPHA)
+			table.insert(roofTable, v)
+		end
+	end
+end)
+
+hook.Add("Think", "rpgRoofAlpha", function()
+	for _,v in pairs(roofTable) do
+		local trans = 0
+		v:SetRenderMode(RENDERMODE_TRANSALPHA)
+		if LocalPlayer():GetPos():Distance(v:GetPos()) < 700 then trans = 120 end
+		local newAlpha = math.Clamp(LocalPlayer():GetPos():Distance(v:GetPos()) / 2 - trans, 0, 255)
+		// gets rid of low alpha roof
+		if newAlpha < 50 then newAlpha = 0 end
+		v:SetColor(Color(255, 255, 255, newAlpha))
+	end
+end)
